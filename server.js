@@ -1,21 +1,24 @@
 const express = require('express');
-const server = express();
+const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 9000;
 
 const db = require('./config/keys').mongoURI;
 
 mongoose.connect(db)
-.then(() => console,log('MongoDB connected'))
+.then(() => console.log('MongoDB connected'))
 .catch((err) => console.log(err));
 
-server.use(bodyParser.json());
 
-server.listen(PORT, () => {
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.listen(port, () => {
     console.log('server is working');
 });
 
-server.get('/', (req, res) => {
-    console.log('Connected');
+app.get('/', (req, res) => {
+    res.send('Connected');
 });
